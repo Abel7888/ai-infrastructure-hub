@@ -1,14 +1,25 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Shield, MapPin, Rocket, Network, ArrowRight } from "lucide-react";
+import IndustryModal, { IndustryType } from "./IndustryModal";
 
-const industries = [
+const industries: {
+  icon: typeof Shield;
+  title: string;
+  subtitle: string;
+  pain: string;
+  description: string;
+  color: string;
+  type: IndustryType;
+}[] = [
   {
     icon: Shield,
     title: "Regulated Enterprises",
     subtitle: "Healthcare, Finance, Insurance",
     pain: "Data residency & compliance failures with cloud AI",
     description: "Deploy HIPAA, PCI-DSS, and SOC2 compliant AI infrastructure with complete data sovereignty.",
-    color: "from-blue-500 to-blue-600"
+    color: "from-blue-500 to-blue-600",
+    type: "regulated"
   },
   {
     icon: MapPin,
@@ -16,7 +27,8 @@ const industries = [
     subtitle: "Construction, Logistics, Real Estate",
     pain: "Cloud latency killing real-time AI applications",
     description: "Edge AI nodes for job sites and facilities with offline-capable, sub-50ms inference.",
-    color: "from-amber-500 to-amber-600"
+    color: "from-amber-500 to-amber-600",
+    type: "physical"
   },
   {
     icon: Rocket,
@@ -24,7 +36,8 @@ const industries = [
     subtitle: "SaaS, AI Startups, Tech Vendors",
     pain: "GPU scarcity and inference margin collapse",
     description: "Private compute infrastructure for predictable performance and sustainable unit economics.",
-    color: "from-purple-500 to-purple-600"
+    color: "from-purple-500 to-purple-600",
+    type: "aiforward"
   },
   {
     icon: Network,
@@ -32,11 +45,14 @@ const industries = [
     subtitle: "Hospital Networks, Retail Chains",
     pain: "Fragmented AI deployments across locations",
     description: "Standardized infrastructure playbooks that scale from 5 to 500 sites.",
-    color: "from-emerald-500 to-emerald-600"
+    color: "from-emerald-500 to-emerald-600",
+    type: "multisite"
   }
 ];
 
 const IndustriesSection = () => {
+  const [activeModal, setActiveModal] = useState<IndustryType | null>(null);
+
   return (
     <section className="py-24 bg-primary">
       <div className="container mx-auto px-4">
@@ -84,7 +100,10 @@ const IndustriesSection = () => {
                   {industry.description}
                 </p>
                 
-                <button className="flex items-center gap-2 text-accent font-medium text-sm group-hover:gap-3 transition-all">
+                <button 
+                  onClick={() => setActiveModal(industry.type)}
+                  className="flex items-center gap-2 text-accent font-medium text-sm group-hover:gap-3 transition-all"
+                >
                   Learn more <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -92,6 +111,15 @@ const IndustriesSection = () => {
           ))}
         </div>
       </div>
+
+      {/* Industry Modal */}
+      {activeModal && (
+        <IndustryModal
+          isOpen={!!activeModal}
+          onClose={() => setActiveModal(null)}
+          type={activeModal}
+        />
+      )}
     </section>
   );
 };

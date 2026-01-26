@@ -3,15 +3,21 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import AssessmentWizard from "./AssessmentWizard";
+
+const navLinks = [
+  { label: "Products", href: "/products" },
   { label: "Services", href: "/services" },
   { label: "Industries", href: "/industries" },
   { label: "About", href: "/about" },
   { label: "Resources", href: "/resources" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAssessmentOpen, setIsAssessmentOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,13 +41,18 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-              <span className="text-accent-foreground font-bold text-lg">AI</span>
+          <a href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center relative overflow-hidden">
+              <svg viewBox="0 0 32 32" className="w-6 h-6">
+                <path d="M8 10 L16 6 L24 10 L24 22 L16 26 L8 22 Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinejoin="round"/>
+                <path d="M16 6 L16 26" stroke="white" strokeWidth="1.5"/>
+                <circle cx="16" cy="16" r="2.5" fill="white"/>
+              </svg>
             </div>
-            <span className="text-white font-bold text-xl hidden sm:block">
-              InfraStrategy
-            </span>
+            <div className="hidden sm:flex flex-col">
+              <span className="text-white font-bold text-lg leading-tight">Cypress AI</span>
+              <span className="text-white/50 text-[10px] uppercase tracking-wider">Infrastructure Strategy</span>
+            </div>
           </a>
 
           {/* Desktop Navigation */}
@@ -59,10 +70,20 @@ const Navbar = () => {
 
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-4">
-            <Button variant="heroSecondary" size="default">
-              Contact
-            </Button>
-            <Button variant="hero" size="default">
+            <a 
+              href="https://calendly.com/abelassefa19/schedule-your-assessment"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button variant="heroSecondary" size="default">
+                Start with Strategy
+              </Button>
+            </a>
+            <Button 
+              variant="hero" 
+              size="default"
+              onClick={() => setIsAssessmentOpen(true)}
+            >
               Get Assessment
             </Button>
           </div>
@@ -99,10 +120,25 @@ const Navbar = () => {
                   </a>
                 ))}
                 <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
-                  <Button variant="heroSecondary" size="lg" className="w-full">
-                    Contact
-                  </Button>
-                  <Button variant="hero" size="lg" className="w-full">
+                  <a 
+                    href="https://calendly.com/abelassefa19/schedule-your-assessment"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full"
+                  >
+                    <Button variant="heroSecondary" size="lg" className="w-full">
+                      Start with Strategy
+                    </Button>
+                  </a>
+                  <Button 
+                    variant="hero" 
+                    size="lg" 
+                    className="w-full"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setIsAssessmentOpen(true);
+                    }}
+                  >
                     Get Assessment
                   </Button>
                 </div>
@@ -111,6 +147,12 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Assessment Wizard Popup */}
+      <AssessmentWizard 
+        isOpen={isAssessmentOpen} 
+        onClose={() => setIsAssessmentOpen(false)} 
+      />
     </motion.header>
   );
 };

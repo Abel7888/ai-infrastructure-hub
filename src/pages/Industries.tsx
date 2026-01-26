@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -270,10 +271,12 @@ const Industries = () => {
 
               {/* CTA */}
               <div className="mt-8">
-                <Button variant="hero" size="lg" className="group">
-                  {industry.ctaLabel}
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Button>
+                <Link to="/contact">
+                  <Button variant="hero" size="lg" className="group">
+                    {industry.ctaLabel}
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           </div>

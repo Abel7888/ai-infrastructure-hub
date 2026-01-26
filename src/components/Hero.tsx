@@ -1,8 +1,13 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, DollarSign, Shield, Zap } from "lucide-react";
+import AssessmentWizard from "./AssessmentWizard";
 
 const Hero = () => {
+  const [isAssessmentOpen, setIsAssessmentOpen] = useState(false);
+
   return (
     <section className="relative min-h-screen bg-gradient-hero overflow-hidden">
       {/* Background Pattern */}
@@ -45,13 +50,20 @@ const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <Button variant="hero" size="xl" className="group">
+              <Button 
+                variant="hero" 
+                size="xl" 
+                className="group"
+                onClick={() => setIsAssessmentOpen(true)}
+              >
                 Get Your Free AI Infrastructure Assessment
                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
               </Button>
-              <Button variant="heroSecondary" size="xl">
-                Learn Our Approach
-              </Button>
+              <Link to="/about">
+                <Button variant="heroSecondary" size="xl">
+                  Learn Our Approach
+                </Button>
+              </Link>
             </div>
             
             <div className="flex items-center gap-2 text-sm text-white/60">
@@ -158,6 +170,12 @@ const Hero = () => {
           />
         </div>
       </motion.div>
+
+      {/* Assessment Wizard Popup */}
+      <AssessmentWizard 
+        isOpen={isAssessmentOpen} 
+        onClose={() => setIsAssessmentOpen(false)} 
+      />
     </section>
   );
 };

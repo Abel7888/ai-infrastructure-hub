@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, FileText } from "lucide-react";
 
@@ -62,10 +63,12 @@ const CTASection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Button variant="hero" size="xl" className="group">
-              Schedule Your Assessment
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Button>
+            <Link to="/contact">
+              <Button variant="hero" size="xl" className="group">
+                Schedule Your Assessment
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
             <Button variant="heroSecondary" size="xl">
               <FileText className="w-5 h-5" />
               Download Assessment Overview

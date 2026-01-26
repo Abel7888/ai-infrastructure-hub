@@ -16,7 +16,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { 
   ArrowRight, CheckCircle, Mail, Phone, MapPin, 
-  Calendar, Clock, FileText
+  Calendar, Clock, FileText, Loader2
 } from "lucide-react";
 
 const challenges = [
@@ -41,6 +41,54 @@ const deliverables = [
 
 const Contact = () => {
   const [selectedChallenges, setSelectedChallenges] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    company: "",
+    industry: "",
+    locations: "",
+    currentInfra: "",
+    monthlySpend: "",
+    usecases: "",
+    timeline: "",
+    name: "",
+    title: "",
+    email: "",
+    phone: "",
+    context: ""
+  });
+
+  const updateField = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://formspree.io/f/xdaavdbv", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          challenges: selectedChallenges.map(id => 
+            challenges.find(c => c.id === id)?.label
+          ).join(", "),
+          formType: "Contact Page Assessment Request",
+          submittedAt: new Date().toISOString()
+        })
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const toggleChallenge = (id: string) => {
     setSelectedChallenges(prev => 
@@ -81,9 +129,31 @@ const Contact = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-card rounded-2xl p-8 shadow-card border border-border"
             >
+              {isSubmitted ? (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle className="w-8 h-8 text-green-500" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-primary mb-3">Assessment Request Submitted!</h2>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                    Thank you for your interest. We'll review your information and reach out within 24-48 hours to discuss next steps.
+                  </p>
+                  <a 
+                    href="https://calendly.com/abelassefa19/schedule-your-assessment"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="hero" size="lg">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Schedule a Call Now
+                    </Button>
+                  </a>
+                </div>
+              ) : (
+                <>
               <h2 className="text-2xl font-bold text-primary mb-6">Request Your Assessment</h2>
               
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Company Information */}
                 <div className="space-y-4">
                   <h3 className="font-semibold text-primary text-lg">Company Information</h3>
@@ -91,11 +161,17 @@ const Contact = () => {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="company">Company Name *</Label>
-                      <Input id="company" placeholder="Your company" />
+                      <Input 
+                        id="company" 
+                        placeholder="Your company" 
+                        value={formData.company}
+                        onChange={(e) => updateField("company", e.target.value)}
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="industry">Industry *</Label>
-                      <Select>
+                      <Select value={formData.industry} onValueChange={(v) => updateField("industry", v)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select industry" />
                         </SelectTrigger>
@@ -116,7 +192,7 @@ const Contact = () => {
                   
                   <div className="space-y-2">
                     <Label>Number of Locations</Label>
-                    <Select>
+                    <Select value={formData.locations} onValueChange={(v) => updateField("locations", v)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
@@ -136,7 +212,7 @@ const Contact = () => {
                   
                   <div className="space-y-2">
                     <Label>Where do you currently run AI workloads? *</Label>
-                    <Select>
+                    <Select value={formData.currentInfra} onValueChange={(v) => updateField("currentInfra", v)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
@@ -151,7 +227,7 @@ const Contact = () => {
                   
                   <div className="space-y-2">
                     <Label>Approximate monthly cloud AI spend</Label>
-                    <Select>
+                    <Select value={formData.monthlySpend} onValueChange={(v) => updateField("monthlySpend", v)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select range" />
                       </SelectTrigger>
@@ -172,6 +248,8 @@ const Contact = () => {
                       id="usecases" 
                       placeholder="e.g., Medical image analysis, patient risk scoring, fraud detection..."
                       rows={3}
+                      value={formData.usecases}
+                      onChange={(e) => updateField("usecases", e.target.value)}
                     />
                   </div>
                 </div>
@@ -206,7 +284,7 @@ const Contact = () => {
                   
                   <div className="space-y-2">
                     <Label>When do you need infrastructure operational? *</Label>
-                    <Select>
+                    <Select value={formData.timeline} onValueChange={(v) => updateField("timeline", v)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select timeline" />
                       </SelectTrigger>
@@ -228,22 +306,47 @@ const Contact = () => {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="name">Your Name *</Label>
-                      <Input id="name" placeholder="Full name" />
+                      <Input 
+                        id="name" 
+                        placeholder="Full name" 
+                        value={formData.name}
+                        onChange={(e) => updateField("name", e.target.value)}
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="title">Title *</Label>
-                      <Input id="title" placeholder="Your role" />
+                      <Input 
+                        id="title" 
+                        placeholder="Your role" 
+                        value={formData.title}
+                        onChange={(e) => updateField("title", e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
                   
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="email">Email *</Label>
-                      <Input id="email" type="email" placeholder="work@company.com" />
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        placeholder="work@company.com" 
+                        value={formData.email}
+                        onChange={(e) => updateField("email", e.target.value)}
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="phone">Phone</Label>
-                      <Input id="phone" type="tel" placeholder="+1 (555) 000-0000" />
+                      <Input 
+                        id="phone" 
+                        type="tel" 
+                        placeholder="+1 (555) 000-0000" 
+                        value={formData.phone}
+                        onChange={(e) => updateField("phone", e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -255,6 +358,8 @@ const Contact = () => {
                     id="context" 
                     placeholder="Anything else we should know about your AI infrastructure needs or constraints?"
                     rows={4}
+                    value={formData.context}
+                    onChange={(e) => updateField("context", e.target.value)}
                   />
                 </div>
 
@@ -262,11 +367,28 @@ const Contact = () => {
                   We respect your privacy. Your information will only be used to contact you about your assessment request and will not be shared with third parties.
                 </p>
 
-                <Button variant="hero" size="xl" className="w-full group">
-                  Request My Assessment
-                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                <Button 
+                  type="submit"
+                  variant="hero" 
+                  size="xl" 
+                  className="w-full group"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      Request My Assessment
+                      <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                    </>
+                  )}
                 </Button>
               </form>
+              </>
+              )}
             </motion.div>
           </div>
 
@@ -344,24 +466,31 @@ const Contact = () => {
               <h3 className="font-semibold text-primary mb-4">Prefer to Talk First?</h3>
               
               <div className="space-y-4">
-                <a href="mailto:hello@infrastrategy.ai" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
+                <a href="mailto:info@cypressai.xyz" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
                   <Mail className="w-5 h-5" />
-                  <span className="text-sm">hello@infrastrategy.ai</span>
+                  <span className="text-sm">info@cypressai.xyz</span>
                 </a>
-                <a href="tel:+1-555-123-4567" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
+                <a href="tel:+1-571-251-2195" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
                   <Phone className="w-5 h-5" />
-                  <span className="text-sm">+1 (555) 123-4567</span>
+                  <span className="text-sm">(571) 251-2195</span>
                 </a>
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <MapPin className="w-5 h-5" />
-                  <span className="text-sm">San Francisco, CA</span>
+                  <span className="text-sm">4901 Seminary Rd, Alexandria, VA</span>
                 </div>
               </div>
               
-              <Button variant="outline" size="lg" className="w-full mt-6 group">
-                <Calendar className="w-4 h-4" />
-                Schedule a 20-Minute Intro Call
-              </Button>
+              <a 
+                href="https://calendly.com/abelassefa19/schedule-your-assessment"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full mt-6"
+              >
+                <Button variant="outline" size="lg" className="w-full group">
+                  <Calendar className="w-4 h-4" />
+                  Schedule a 20-Minute Intro Call
+                </Button>
+              </a>
             </motion.div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -64,7 +65,8 @@ const partners = {
   accelerators: ["NVIDIA (H100, L40S, L4, AI Enterprise)", "Intel Habana Gaudi2", "AMD Instinct MI300"],
   software: ["Run.ai", "NVIDIA AI Enterprise", "Weights & Biases", "MLflow"],
   cooling: ["Motivair", "CoolIT Systems", "ZutaCore", "LiquidStack"],
-  power: ["Schneider Electric", "Vertiv", "Eaton"]
+  power: ["Schneider Electric", "Vertiv", "Eaton"],
+  msp: ["Managed AI Operations", "24/7 Infrastructure Monitoring", "Proactive Maintenance", "Performance Optimization"]
 };
 
 const differentiators = [
@@ -209,7 +211,7 @@ const About = () => {
             </p>
           </motion.div>
           
-          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
             {Object.entries(partners).map(([category, items], idx) => (
               <motion.div
                 key={category}
@@ -223,7 +225,8 @@ const About = () => {
                   {category === "compute" ? "Compute & Servers" : 
                    category === "accelerators" ? "AI Accelerators" :
                    category === "software" ? "Infrastructure Software" :
-                   category === "cooling" ? "Cooling" : "Power"}
+                   category === "cooling" ? "Cooling" : 
+                   category === "power" ? "Power" : "MSP Services"}
                 </h3>
                 <ul className="space-y-2">
                   {items.map((item, i) => (
@@ -285,10 +288,12 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mt-12"
           >
-            <Button variant="hero" size="xl" className="group">
-              Start With Strategy
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Button>
+            <Link to="/contact">
+              <Button variant="hero" size="xl" className="group">
+                Start With Strategy
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </section>

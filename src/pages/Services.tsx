@@ -1,13 +1,26 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { 
-  Search, Server, Cpu, Cloud, Zap, Thermometer, 
-  Battery, Shield, ArrowRight, CheckCircle, Palette, Settings, Users
+  Server, Cpu, Cloud, Zap, Thermometer, 
+  Battery, Shield, ArrowRight, Settings
 } from "lucide-react";
+import ArchitectureModal, { ArchitectureType } from "@/components/ArchitectureModal";
 
-const services = [
+const services: {
+  icon: typeof Server;
+  title: string;
+  subtitle: string;
+  idealFor: string;
+  specs: string;
+  benefits: string[];
+  industries: string;
+  color: string;
+  architectureType: ArchitectureType;
+  buttonLabel: string;
+}[] = [
   {
     icon: Server,
     title: "Private AI Compute Nodes",
@@ -20,7 +33,9 @@ const services = [
       "Natural expansion path to clusters"
     ],
     industries: "Healthcare systems, financial services, insurance",
-    color: "from-blue-500 to-blue-600"
+    color: "from-blue-500 to-blue-600",
+    architectureType: "node",
+    buttonLabel: "View Node Architecture"
   },
   {
     icon: Cpu,
@@ -34,7 +49,9 @@ const services = [
       "Video analytics, computer vision, predictive maintenance"
     ],
     industries: "Construction, logistics, warehousing, real estate operations",
-    color: "from-amber-500 to-amber-600"
+    color: "from-amber-500 to-amber-600",
+    architectureType: "edge",
+    buttonLabel: "View Edge Architecture"
   },
   {
     icon: Zap,
@@ -48,7 +65,9 @@ const services = [
       "Enterprise-grade GPU utilization (>80%)"
     ],
     industries: "AI startups, SaaS platforms, research institutions",
-    color: "from-purple-500 to-purple-600"
+    color: "from-purple-500 to-purple-600",
+    architectureType: "cluster",
+    buttonLabel: "View Cluster Architecture"
   },
   {
     icon: Cloud,
@@ -62,7 +81,9 @@ const services = [
       "Gradual cloud exit or cloud burst capability"
     ],
     industries: "Multi-site operators, enterprises with mixed workload types",
-    color: "from-emerald-500 to-emerald-600"
+    color: "from-emerald-500 to-emerald-600",
+    architectureType: "hybrid",
+    buttonLabel: "View Hybrid Architecture"
   }
 ];
 
@@ -101,25 +122,10 @@ const advancedCapabilities = [
   }
 ];
 
-const deliveryModel = [
-  {
-    icon: Palette,
-    title: "We Design & Strategize",
-    items: ["Infrastructure architecture", "Vendor selection and negotiation", "Compliance framework", "3-year capacity planning"]
-  },
-  {
-    icon: Users,
-    title: "Partners Deploy",
-    items: ["Coordinate with your preferred integrators", "Or we manage deployment directly", "Focus on outcomes, not headcount"]
-  },
-  {
-    icon: CheckCircle,
-    title: "You Own & Operate",
-    items: ["Full documentation and runbooks", "Training for your team", "Ongoing advisory as needed", "No vendor lock-in"]
-  }
-];
 
 const Services = () => {
+  const [activeModal, setActiveModal] = useState<ArchitectureType | null>(null);
+
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
@@ -138,70 +144,6 @@ const Services = () => {
             <p className="text-xl text-white/70">
               We don't just sell hardware—we architect solutions that align with your business goals, compliance requirements, and growth trajectory.
             </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Strategic Foundation */}
-      <section className="py-20 bg-surface-elevated">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center">
-                <Search className="w-7 h-7 text-accent" />
-              </div>
-              <div>
-                <span className="text-sm font-semibold text-accent uppercase tracking-wider">Strategic Foundation</span>
-                <h2 className="text-2xl md:text-3xl font-bold text-primary">AI Infrastructure Readiness Assessment</h2>
-              </div>
-            </div>
-            
-            <div className="bg-card rounded-2xl p-8 shadow-card border border-border">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="font-semibold text-primary mb-4">What It Is</h3>
-                  <p className="text-muted-foreground mb-6">
-                    2-3 week engagement analyzing your AI workload requirements, compliance constraints, performance targets, and growth trajectory.
-                  </p>
-                  
-                  <h3 className="font-semibold text-primary mb-4">What You Get</h3>
-                  <ul className="space-y-2">
-                    {[
-                      "AI workload characterization and sizing model",
-                      "Infrastructure architecture recommendations",
-                      "3-year TCO comparison (cloud vs. private vs. hybrid)",
-                      "Compliance and security framework",
-                      "GPU utilization and scheduling strategy"
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2 text-muted-foreground">
-                        <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div className="bg-accent/5 rounded-xl p-6 border border-accent/20">
-                  <div className="text-4xl font-bold text-accent mb-2">$0-15K</div>
-                  <div className="text-sm text-muted-foreground mb-6">(credited toward deployment)</div>
-                  
-                  <h3 className="font-semibold text-primary mb-4">Why It Matters</h3>
-                  <p className="text-muted-foreground text-sm">
-                    "This isn't a sales pitch disguised as consulting. It's how we filter serious buyers, establish advisory authority, and ensure every deployment is right-sized from day one."
-                  </p>
-                  
-                  <Button variant="hero" size="lg" className="w-full mt-6 group">
-                    Request Assessment Scope
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
       </section>
@@ -267,8 +209,13 @@ const Services = () => {
                   </div>
                 </div>
                 
-                <Button variant="outline" size="sm" className="mt-6 group">
-                  See Architecture Reference
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="mt-6 group"
+                  onClick={() => setActiveModal(service.architectureType)}
+                >
+                  {service.buttonLabel}
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </Button>
               </motion.div>
@@ -330,57 +277,16 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Delivery Model */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <span className="text-sm font-semibold text-accent uppercase tracking-wider">Delivery Model</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mt-2">How We Work With You</h2>
-          </motion.div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {deliveryModel.map((model, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <model.icon className="w-8 h-8 text-accent" />
-                </div>
-                <h3 className="text-xl font-bold text-primary mb-4">{model.title}</h3>
-                <ul className="space-y-2">
-                  {model.items.map((item, i) => (
-                    <li key={i} className="text-muted-foreground text-sm">{item}</li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mt-12"
-          >
-            <Button variant="hero" size="xl" className="group">
-              Let's Design Your AI Infrastructure
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </motion.div>
-        </div>
-      </section>
-
       <Footer />
+
+      {/* Architecture Modal */}
+      {activeModal && (
+        <ArchitectureModal
+          isOpen={!!activeModal}
+          onClose={() => setActiveModal(null)}
+          type={activeModal}
+        />
+      )}
     </main>
   );
 };

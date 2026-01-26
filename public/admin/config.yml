@@ -1,0 +1,34 @@
+backend:
+  branch: main
+  name: git-gateway
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "articles"
+    label: "Articles & Guides"
+    folder: "content/articles"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Category", name: "category", widget: "select", options: ["economics", "technical", "compliance", "playbooks"] }
+      - { label: "Read Time", name: "readTime", widget: "string", default: "5 min read" }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Featured Image", name: "image", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "guides"
+    label: "Downloadable Guides"
+    folder: "content/guides"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Type", name: "type", widget: "select", options: ["PDF", "Excel Template", "Word Document", "PDF + Spreadsheet"] }
+      - { label: "Download File", name: "file", widget: "file" }
+      - { label: "Icon", name: "icon", widget: "select", options: ["FileText", "Download", "BookOpen"], default: "FileText" }
