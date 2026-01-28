@@ -3,7 +3,8 @@ title: "HIPAA-Compliant AI Infrastructure: On-Prem, Hybrid, or Cloud?"
 description: "How to deploy AI infrastructure that satisfies HIPAA requirements while maximizing performance and minimizing cost."
 category: "compliance"
 readTime: "10 min read"
-featured: true
+featured: false
+draft: true
 date: 2026-01-19T00:00:00.000Z
 ---
 

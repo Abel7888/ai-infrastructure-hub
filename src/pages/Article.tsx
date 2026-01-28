@@ -128,13 +128,15 @@ const Article = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="lg:col-span-8 
-                prose prose-lg max-w-none
-                prose-headings:text-primary prose-headings:font-bold prose-headings:mt-12 prose-headings:mb-6
-                prose-h1:text-3xl prose-h1:mt-0
-                prose-h2:text-2xl prose-h2:border-b prose-h2:border-border prose-h2:pb-3
-                prose-h3:text-xl prose-h3:text-primary/90
-                prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:text-base prose-p:mb-6
+              className="lg:col-span-9 
+                prose prose-lg md:prose-xl max-w-none
+                prose-headings:text-primary prose-headings:font-bold prose-headings:tracking-tight
+                prose-headings:mt-12 prose-headings:mb-6
+                prose-h1:text-4xl prose-h1:leading-tight prose-h1:mt-0
+                prose-h2:text-3xl prose-h2:leading-snug prose-h2:border-b prose-h2:border-border prose-h2:pb-3
+                prose-h3:text-2xl prose-h3:leading-snug prose-h3:text-primary/90
+                prose-h4:text-xl prose-h4:leading-snug prose-h4:text-primary/90
+                prose-p:text-muted-foreground prose-p:leading-8 prose-p:text-[1.05rem] prose-p:mb-7
                 prose-a:text-accent prose-a:font-medium prose-a:no-underline hover:prose-a:underline
                 prose-strong:text-primary prose-strong:font-semibold
                 prose-ul:text-muted-foreground prose-ul:my-6 prose-ul:space-y-2
@@ -144,7 +146,13 @@ const Article = () => {
                 prose-code:bg-surface-elevated prose-code:px-2 prose-code:py-1 prose-code:rounded-md prose-code:text-accent prose-code:text-sm prose-code:font-mono
                 prose-pre:bg-surface-dark prose-pre:text-white prose-pre:rounded-xl prose-pre:p-6"
             >
-              <ReactMarkdown>{article.content}</ReactMarkdown>
+              <ReactMarkdown
+                components={{
+                  h1: ({ node, ...props }) => <h2 {...props} />
+                }}
+              >
+                {article.content}
+              </ReactMarkdown>
               
               {/* Bottom CTA - Left aligned primary action */}
               <div className="mt-16 pt-8 border-t border-border not-prose">
@@ -168,7 +176,7 @@ const Article = () => {
             </motion.article>
             
             {/* Sidebar */}
-            <aside className="lg:col-span-4">
+            <aside className="lg:col-span-3">
               <div className="sticky top-28 space-y-8">
                 {/* Quick CTA Card */}
                 <div className="bg-gradient-to-br from-accent/10 to-primary/5 rounded-2xl p-6 border border-accent/20">

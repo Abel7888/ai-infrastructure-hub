@@ -3,7 +3,8 @@ title: "Healthcare AI Infrastructure: Radiology, EHR Analysis, and Clinical Deci
 description: "A complete playbook for deploying AI infrastructure in healthcare organizations with specific use cases and architecture patterns."
 category: "playbooks"
 readTime: "15 min read"
-featured: true
+featured: false
+draft: true
 date: 2026-01-18T00:00:00.000Z
 ---
 

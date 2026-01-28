@@ -8,6 +8,7 @@ export interface Article {
   date: string;
   image?: string;
   content: string;
+  draft?: boolean;
 }
 
 // Simple frontmatter parser (browser-compatible)
@@ -67,12 +68,15 @@ export function getArticles(): Article[] {
       featured: data.featured === true,
       date: data.date || new Date().toISOString(),
       image: data.image,
-      content
+      content,
+      draft: data.draft === true
     });
   }
   
   // Sort by date, newest first
-  return articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return articles
+    .filter(a => !a.draft)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export function getArticleBySlug(slug: string): Article | undefined {

@@ -3,7 +3,8 @@ title: "The Real Cost of Cloud AI: Why Inference Margins Collapse at Scale"
 description: "Cloud AI promises flexibility but delivers unpredictable costs. Learn why inference costs explode as you scale and how to model your true TCO."
 category: "economics"
 readTime: "8 min read"
-featured: true
+featured: false
+draft: true
 date: 2026-01-21T00:00:00.000Z
 ---
 
