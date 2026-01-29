@@ -25,10 +25,20 @@ const Footer = () => {
               AI infrastructure strategists helping regulated enterprises and operations-heavy companies deploy private AI with predictable costs and guaranteed compliance.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-accent transition-colors">
+              <a
+                href="https://linkedin.com/company/cypress-ai-deploy/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-accent transition-colors"
+              >
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-accent transition-colors">
+              <a
+                href="https://x.com/cypress788"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-accent transition-colors"
+              >
                 <Twitter className="w-5 h-5" />
               </a>
             </div>
