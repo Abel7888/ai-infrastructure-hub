@@ -139,12 +139,12 @@ const Article = () => {
                 prose-p:text-muted-foreground prose-p:leading-8 prose-p:text-[1.05rem] prose-p:mb-7
                 prose-a:text-accent prose-a:font-medium prose-a:no-underline hover:prose-a:underline
                 prose-strong:text-primary prose-strong:font-semibold
-                prose-ul:text-muted-foreground prose-ul:my-6 prose-ul:space-y-2
-                prose-ol:text-muted-foreground prose-ol:my-6 prose-ol:space-y-2
-                prose-li:marker:text-accent prose-li:leading-relaxed
-                prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-accent/5 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:text-muted-foreground prose-blockquote:italic prose-blockquote:not-italic
-                prose-code:bg-surface-elevated prose-code:px-2 prose-code:py-1 prose-code:rounded-md prose-code:text-accent prose-code:text-sm prose-code:font-mono
-                prose-pre:bg-surface-dark prose-pre:text-white prose-pre:rounded-xl prose-pre:p-6"
+                prose-ul:text-muted-foreground prose-ul:mt-4 prose-ul:mb-8 prose-ul:space-y-3
+                prose-ol:text-muted-foreground prose-ol:mt-4 prose-ol:mb-8 prose-ol:space-y-3
+                prose-li:marker:text-accent prose-li:leading-7
+                prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-accent/5 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:text-muted-foreground prose-blockquote:font-normal prose-blockquote:not-italic prose-blockquote:leading-7 prose-blockquote:my-8 prose-blockquote:break-words
+                prose-code:bg-surface-elevated prose-code:px-2 prose-code:py-1 prose-code:rounded-md prose-code:text-accent prose-code:text-sm prose-code:font-mono prose-code:break-words prose-code:before:content-none prose-code:after:content-none
+                prose-pre:bg-surface-dark prose-pre:text-white prose-pre:rounded-xl prose-pre:p-6 prose-pre:overflow-x-auto prose-pre:break-words prose-pre:whitespace-pre-wrap"
             >
               <ReactMarkdown
                 components={{
